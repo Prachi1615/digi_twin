@@ -41,7 +41,7 @@ export default function Welcome() {
           fontSize: '16px',
         }}
       >
-        Logout
+        Signout
       </button>
     </div>
   );

@@ -1,5 +1,5 @@
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GitHubProvider from "next-auth/providers/github";
@@ -29,9 +29,5 @@ export default NextAuth({
       from: process.env.EMAIL_FROM,
     }),
   ],
-
-  pages: {
-    signOut: '/api/auth/signout', // Custom sign-out page (optional)
-  },
   adapter: PrismaAdapter(prisma),
 });
