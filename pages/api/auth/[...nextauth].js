@@ -29,16 +29,7 @@ export default NextAuth({
       from: process.env.EMAIL_FROM,
     }),
   ],
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Redirect to the dashboard after successful login
-      if (url.startsWith(baseUrl)) {
-        return url; // Redirect to the original URL
-      } else {
-        return baseUrl + '/dashboard'; // Redirect to the dashboard if the URL is not valid
-      }
-    },
-  },
+
   pages: {
     signOut: '/api/auth/signout', // Custom sign-out page (optional)
   },
