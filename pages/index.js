@@ -1,9 +1,17 @@
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 export default function Home() {
-  const { data: session } = useSession();
-  const router = useRouter(); // Initialize useRouter hook
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      // If the user is signed in, redirect to the homepage
+      router.push('/');
+    }
+  }, [session, router]); // Only trigger when the session changes
 
   const handleLogout = () => {
     signOut();
@@ -11,7 +19,6 @@ export default function Home() {
 
   const handleSignIn = async () => {
     await signIn(); // Sign in the user
-    router.push('/'); // Redirect to the homepage after signing in
   };
 
   return (
@@ -28,7 +35,9 @@ export default function Home() {
         color: '#fff',
       }}
     >
-      {!session ? (
+      {status === 'loading' ? (
+        <p>Loading...</p> // Show a loading message while the session is being determined
+      ) : !session ? (
         <>
           <p>Not signed in</p>
           <button
