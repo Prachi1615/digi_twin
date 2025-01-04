@@ -3,9 +3,15 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function Home() {
   const { data: session } = useSession();
+  const router = useRouter(); // Initialize useRouter hook
 
   const handleLogout = () => {
     signOut();
+  };
+
+  const handleSignIn = async () => {
+    await signIn(); // Sign in the user
+    router.push('/'); // Redirect to the homepage after signing in
   };
 
   return (
@@ -26,7 +32,7 @@ export default function Home() {
         <>
           <p>Not signed in</p>
           <button
-            onClick={() => signIn()}
+            onClick={handleSignIn} // Use the handleSignIn function here
             style={{
               padding: '10px 20px',
               backgroundColor: '#0070f3',
