@@ -7,10 +7,10 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (session && status === 'authenticated') {
+    if (status === 'authenticated') {
       router.push('/');
     }
-  }, [session, status, router]);
+  }, [status, router]);
 
   const handleLogout = () => {
     signOut();
@@ -29,7 +29,7 @@ export default function Home() {
         alignItems: 'center',
         textAlign: 'center',
         padding: '20px',
-        background: 'linear-gradient(to bottom right, #4CAF50, #2196F3)',
+        background: 'linear-gradient(to bottom right, #9B35E3, #FF34FD)',
         minHeight: '100vh',
         color: '#fff',
       }}
