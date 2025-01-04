@@ -7,18 +7,17 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (session) {
-      // If the user is signed in, redirect to the homepage
+    if (session && status === 'authenticated') {
       router.push('/');
     }
-  }, [session, router]); // Only trigger when the session changes
+  }, [session, status, router]);
 
   const handleLogout = () => {
     signOut();
   };
 
   const handleSignIn = async () => {
-    await signIn(); // Sign in the user
+    await signIn();
   };
 
   return (
@@ -36,12 +35,12 @@ export default function Home() {
       }}
     >
       {status === 'loading' ? (
-        <p>Loading...</p> // Show a loading message while the session is being determined
+        <p>Loading...</p>
       ) : !session ? (
         <>
           <p>Not signed in</p>
           <button
-            onClick={handleSignIn} // Use the handleSignIn function here
+            onClick={handleSignIn}
             style={{
               padding: '10px 20px',
               backgroundColor: '#0070f3',
@@ -74,7 +73,7 @@ export default function Home() {
             Sign out
           </button>
           <iframe
-            src="https://trillion.investments/" // Replace with your desired webpage URL
+            src="https://trillion.investments/"
             style={{
               width: '100%',
               height: '100%',
