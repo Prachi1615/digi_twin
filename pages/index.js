@@ -1,48 +1,77 @@
 import { useRouter } from 'next/router';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
-export default function Welcome() {
-  const router = useRouter();
+export default function Home() {
+  const { data: session } = useSession();
 
   const handleLogout = () => {
-    // Add your logout logic here
-    alert('Logged out successfully!');
-    router.push('/api/auth/signin'); // Redirect to sign-in page
+    signOut();
   };
 
   return (
     <div
       style={{
-        height: '100vh',
-        width: '100vw',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #6e45e2, #88d3ce)',
-        color: '#fff',
+        alignItems: 'center',
         textAlign: 'center',
-        fontFamily: 'Arial, sans-serif',
+        padding: '20px',
+        background: 'linear-gradient(to bottom right, #4CAF50, #2196F3)',
+        minHeight: '100vh',
+        color: '#fff',
       }}
     >
-      <h1>Welcome Back!</h1>
-      <p style={{ marginTop: '10px', fontSize: '18px', maxWidth: '400px' }}>
-        We're excited to have you here. Feel free to explore and make the most out of your experience.
-      </p>
-      <button
-        onClick={handleLogout}
-        style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#ff6f61',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          fontSize: '16px',
-        }}
-      >
-        Signout
-      </button>
+      {!session ? (
+        <>
+          <p>Not signed in</p>
+          <button
+            onClick={() => signIn()}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#0070f3',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+            }}
+          >
+            Sign in
+          </button>
+        </>
+      ) : (
+        <>
+          <p>Signed in as {session.user.email}</p>
+          <button
+            onClick={handleLogout}
+            style={{
+              marginTop: '10px',
+              padding: '10px 20px',
+              backgroundColor: '#ff6f61',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+            }}
+          >
+            Sign out
+          </button>
+          <iframe
+            src="https://trillion.investments/" // Replace with your desired webpage URL
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              marginTop: '10px',
+              borderRadius: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            }}
+            title="Embedded Webpage"
+          ></iframe>
+        </>
+      )}
     </div>
   );
 }
