@@ -8,23 +8,30 @@ import TwitterProvider from "next-auth/providers/twitter";
 
 const prisma = new PrismaClient();
 
+// Icon components
+
+
 export default NextAuth({
   providers: [
-    TwitterProvider({
-        clientId: process.env.TWITTER_CLIENT_ID,
-        clientSecret: process.env.TWITTER_CLIENT_SECRET,
-        version: "2.0"
-      }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      logo: '../../../images/google'
     //   authorization: {
     //     params: {
     //       scope: 'https://www.googleapis.com/auth/gmail.readonly',
     //     },
     //   },
     }),
+    TwitterProvider({
+        clientId: process.env.TWITTER_CLIENT_ID,
+        clientSecret: process.env.TWITTER_CLIENT_SECRET,
+        logo: '/images/twitter',
+        version: "2.0"
+      }),
+    
     EmailProvider({
+      logo: '../../../images/email.png',
       server: {
         host: process.env.EMAIL_SERVER_HOST,
         port: process.env.EMAIL_SERVER_PORT,
@@ -38,6 +45,7 @@ export default NextAuth({
       GitHubProvider({
         clientId: process.env.GITHUB_ID,
         clientSecret: process.env.GITHUB_SECRET,
+        logo: '../../../images/github.png'
       }),
       
     //   Providers.Credentials({
