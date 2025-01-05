@@ -2,31 +2,36 @@ import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
+
+// function handleLogout() {
+//   useEffect(() => {
+//    signOut({callbackUrl: "/"});
+//   }, []);
+//  return <p>Signing out...</p>;
+// }
+
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+  const callbackUrl='/';
   useEffect(() => {
     if (status === 'authenticated') {
       router.push('/');
     }
-  }, [status, router]);
+  }, [status, router, callbackUrl]);
 
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await signOut({ callbackUrl: '/' }); // Avoid redundant router.push
-    } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      setIsLoggingOut(false);
-    }
-  };
+
   
 
   const handleSignIn = async () => {
     await signIn({ callbackUrl: '/' });
+  };
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    await signOut({ callbackUrl: "/" });
   };
 
   return (
@@ -68,7 +73,7 @@ export default function Home() {
           <p>Signed in as {session.user.email}</p>
           <button
             onClick={handleLogout}
-            
+            disabled={isLoggingOut}
             style={{
               marginTop: '10px',
               padding: '10px 20px',
@@ -80,7 +85,7 @@ export default function Home() {
               fontSize: '16px',
             }}
           >
-            Sign out
+            {isLoggingOut ? 'Signing out...' : 'Sign out'}
           </button>
           <iframe
             src="https://trillion.investments/"
@@ -96,7 +101,6 @@ export default function Home() {
           ></iframe>
         </>
       )}
-      {isLoggingOut }
     </div>
   );
 }
