@@ -49,8 +49,6 @@ model User {
   emailVerified DateTime?
   image         String?
   biometricCredentials  Json?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
   accounts      Account[]
   sessions      Session[]
 }
