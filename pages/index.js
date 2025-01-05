@@ -1,23 +1,32 @@
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // useEffect(() => {
-  //   if (status === 'authenticated') {
-  //     router.push('/');
-  //   }
-  // }, [status, router]);
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/');
+    }
+  }, [status, router]);
 
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await signOut({ callbackUrl: '/' }); // Avoid redundant router.push
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
+  
 
   const handleSignIn = async () => {
-    await signIn();
+    await signIn({ callbackUrl: '/' });
   };
 
   return (
@@ -56,10 +65,10 @@ export default function Home() {
         </>
       ) : (
         <>
-        router.push('/');
           <p>Signed in as {session.user.email}</p>
           <button
             onClick={handleLogout}
+            
             style={{
               marginTop: '10px',
               padding: '10px 20px',
@@ -87,6 +96,7 @@ export default function Home() {
           ></iframe>
         </>
       )}
+      {isLoggingOut }
     </div>
   );
 }

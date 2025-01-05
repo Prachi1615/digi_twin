@@ -39,6 +39,7 @@ export default NextAuth({
         clientId: process.env.GITHUB_ID,
         clientSecret: process.env.GITHUB_SECRET,
       }),
+      
     //   Providers.Credentials({
     //     id: "biometric",
     //     name: "Biometric",
@@ -53,6 +54,13 @@ export default NextAuth({
     //     },
     //   }),
   ],
+  callbacks: {
+    async redirect({url, baseUrl}) {
+        // if (url.startsWith("/logout")) return "https://www.instagram.com.ar/";
+      return baseUrl + '/';
+    }
+    
+  },
   pages: {
     signIn: '/auth/signin', // Specify the custom sign-in page
   },
