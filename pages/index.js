@@ -6,11 +6,11 @@ export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.push('/');
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === 'authenticated') {
+  //     router.push('/');
+  //   }
+  // }, [status, router]);
 
   const handleLogout = () => {
     signOut();
@@ -56,6 +56,7 @@ export default function Home() {
         </>
       ) : (
         <>
+        router.push('/');
           <p>Signed in as {session.user.email}</p>
           <button
             onClick={handleLogout}
